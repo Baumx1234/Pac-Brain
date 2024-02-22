@@ -12,4 +12,5 @@ public class Passage : MonoBehaviour
         other.transform.position = position;
     }
 
+
 }
