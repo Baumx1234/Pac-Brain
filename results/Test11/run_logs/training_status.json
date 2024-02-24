@@ -1,0 +1,29 @@
+{
+    "PacMan": {
+        "checkpoints": [
+            {
+                "steps": 11119,
+                "file_path": "results\\Test11\\PacMan\\PacMan-11119.onnx",
+                "reward": 0.0,
+                "creation_time": 1708784906.2063696,
+                "auxillary_file_paths": [
+                    "results\\Test11\\PacMan\\PacMan-11119.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 11119,
+            "file_path": "results\\Test11\\PacMan.onnx",
+            "reward": 0.0,
+            "creation_time": 1708784906.2063696,
+            "auxillary_file_paths": [
+                "results\\Test11\\PacMan\\PacMan-11119.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.0.0",
+        "torch_version": "1.13.1+cu117"
+    }
+}

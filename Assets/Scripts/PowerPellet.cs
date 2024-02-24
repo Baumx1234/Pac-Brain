@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PowerPellet : Pellet
 {
@@ -6,6 +7,11 @@ public class PowerPellet : Pellet
 
     protected override void Eat()
     {
+        // Deactivate eating ghost for training
+        if(SceneManager.GetActiveScene().name != "All") {
+            this.duration = 0f;
+        }
+
         GameManager.Instance.PowerPelletEaten(this);
     }
 
