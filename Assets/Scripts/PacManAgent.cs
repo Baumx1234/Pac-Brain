@@ -3,11 +3,13 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Movement))]
 public class PacManAgent : Agent
 {
     [SerializeField] private AnimatedSprite deathSequence;
+    [SerializeField] private Tilemap pelletTilemap;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
     private new Collider2D collider;
@@ -22,12 +24,17 @@ public class PacManAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        // Get all active Pellet GameObjects
+        GameObject pellets = GameObject.Find("Pellet(Clone)");
+        Debug.Log(pellets);
+
+
+        // Add PacMan's position as observation
         sensor.AddObservation(transform.localPosition);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.name == "Pellet(Clone)")
         {
             AddReward(10f);
@@ -37,7 +44,6 @@ public class PacManAgent : Agent
         {
             AddReward(50f);
         }
-
     }
 
     public override void OnActionReceived(ActionBuffers actions)

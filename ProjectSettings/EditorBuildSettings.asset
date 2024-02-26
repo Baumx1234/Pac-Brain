@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Pacman.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/No Ghosts.unity
+    guid: d32f8e87d577bd144a2f38998b1f2d1d
   m_configObjects: {}
