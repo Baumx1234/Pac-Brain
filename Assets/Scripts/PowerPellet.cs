@@ -8,7 +8,7 @@ public class PowerPellet : Pellet
     protected override void Eat()
     {
         // Deactivate eating ghost for training
-        if(SceneManager.GetActiveScene().name != "All") {
+        if(SceneManager.GetActiveScene().name != "All" && SceneManager.GetActiveScene().name != "Normal Game") {
             this.duration = 0f;
         }
 

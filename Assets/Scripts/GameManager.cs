@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Ghost[] ghosts;
 
-    [SerializeField] private Pacman pacman;
+    [SerializeField] private MonoBehaviour pacman;
 
     [SerializeField] private Transform pellets;
 
@@ -39,6 +39,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (pacman.GetComponent<Pacman>())
+        {
+            pacman = pacman.GetComponent<Pacman>();
+        } else if (pacman.GetComponent<PacManAgent>())
+        {
+            pacman = pacman.GetComponent<PacManAgent>();
+        }
+        else
+        {
+            Debug.LogError("Das übergebene Objekt ist weder ein Pacman noch ein PacmanAgent.");
+        }
         NewGame();
     }
 
@@ -76,7 +87,14 @@ public class GameManager : MonoBehaviour
             ghosts[i].ResetState();
         }
 
-        pacman.ResetState();
+        if (pacman is Pacman)
+        {
+            (pacman as Pacman).ResetState();
+        }
+        else if (pacman is PacManAgent)
+        {
+            (pacman as PacManAgent).ResetState();
+        }
     }
 
     private void GameOver()
@@ -105,7 +123,14 @@ public class GameManager : MonoBehaviour
 
     public void PacmanEaten()
     {
-        pacman.DeathSequence();
+        if (pacman is Pacman)
+        {
+            (pacman as Pacman).DeathSequence();
+        }
+        else if (pacman is PacManAgent)
+        {
+            (pacman as PacManAgent).DeathSequence();
+        }
 
         SetLives(lives - 1);
 
