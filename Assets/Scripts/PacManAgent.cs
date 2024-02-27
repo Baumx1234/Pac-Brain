@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 public class PacManAgent : Agent
 {
     [SerializeField] private AnimatedSprite deathSequence;
-    [SerializeField] private Tilemap pelletTilemap;
+    [SerializeField] private Transform pellets;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
     private new Collider2D collider;
@@ -24,14 +24,17 @@ public class PacManAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Get all active Pellet GameObjects
-        GameObject pellets = GameObject.Find("Pellet(Clone)");
-        Debug.Log(pellets);
+        sensor.AddObservation(transform.position);
 
-
-        // Add PacMan's position as observation
-        sensor.AddObservation(transform.localPosition);
+        foreach (Transform pellet in pellets)
+        {
+            // Add pellet position
+            sensor.AddObservation(pellet.position);
+            // Add pellet activation status (1 if active, 0 if inactive)
+            sensor.AddObservation(pellet.gameObject.activeSelf ? 1f : 0f);
+        }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

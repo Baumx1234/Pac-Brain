@@ -376,6 +376,10 @@ PrefabInstance:
       value: PacmanAgent
       objectReference: {fileID: 0}
     - target: {fileID: 6568115146936581070, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+      propertyPath: pellets
+      value: 
+      objectReference: {fileID: 1910537628}
+    - target: {fileID: 6568115146936581070, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: deathSequence
       value: 
       objectReference: {fileID: 264481196}

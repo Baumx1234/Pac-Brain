@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text livesText;
 
     private int ghostMultiplier = 1;
-    private int lives = 3;
+    private int lives = 1;
     private int score = 0;
 
     public int Lives => lives;
