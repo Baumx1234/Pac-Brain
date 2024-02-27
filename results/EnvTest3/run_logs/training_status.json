@@ -1,0 +1,47 @@
+{
+    "PacManAgent": {
+        "checkpoints": [
+            {
+                "steps": 499994,
+                "file_path": "results\\EnvTest3\\PacManAgent\\PacManAgent-499994.onnx",
+                "reward": -3.3333333333333335,
+                "creation_time": 1709039455.762606,
+                "auxillary_file_paths": [
+                    "results\\EnvTest3\\PacManAgent\\PacManAgent-499994.pt"
+                ]
+            },
+            {
+                "steps": 500058,
+                "file_path": "results\\EnvTest3\\PacManAgent\\PacManAgent-500058.onnx",
+                "reward": -3.3333333333333335,
+                "creation_time": 1709039455.8236492,
+                "auxillary_file_paths": [
+                    "results\\EnvTest3\\PacManAgent\\PacManAgent-500058.pt"
+                ]
+            },
+            {
+                "steps": 500058,
+                "file_path": "results\\EnvTest3\\PacManAgent\\PacManAgent-500058.onnx",
+                "reward": null,
+                "creation_time": 1709039688.0062284,
+                "auxillary_file_paths": [
+                    "results\\EnvTest3\\PacManAgent\\PacManAgent-500058.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500058,
+            "file_path": "results\\EnvTest3\\PacManAgent.onnx",
+            "reward": null,
+            "creation_time": 1709039688.0062284,
+            "auxillary_file_paths": [
+                "results\\EnvTest3\\PacManAgent\\PacManAgent-500058.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.0.0",
+        "torch_version": "1.13.1+cu117"
+    }
+}

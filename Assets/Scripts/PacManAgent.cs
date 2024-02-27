@@ -9,30 +9,64 @@ using UnityEngine.Tilemaps;
 public class PacManAgent : Agent
 {
     [SerializeField] private AnimatedSprite deathSequence;
-    [SerializeField] private Transform pellets;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
     private new Collider2D collider;
-    private int currentAction = 3;
+    private GameManager gamemanager;
+    private int currentAction;
+    private float timeSinceLastPellet;
+
+    // Constants
+    private const float MaxTimeWithoutPellets = 30f;
+
+    private const float PelletReward = 0.01f;
+    private const float PowerPelletReward = 0.05f;
+    private const float DeathReward = -1f;
+    private const float HungerReward = -0.5f;
+    private const float WinReward = 1f;
+
+
+    private Vector3 worldMin = new(-12.5f, -15.5f, 0f);
+    private Vector3 worldMax = new(12.5f, 12.5f, 0f);
 
     public override void Initialize()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         movement = GetComponent<Movement>();
         collider = GetComponent<Collider2D>();
+        gamemanager = FindObjectOfType<GameManager>();
+        timeSinceLastPellet = 0f;
+        currentAction = 3;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.position);
+        // Add player position
+        Vector3 normalizedPlayerPosition = NormalizePosition(transform.position);
+        sensor.AddObservation(normalizedPlayerPosition);
 
+        Transform pellets = gamemanager.GetPellets();
+        if (!pellets) return;
         foreach (Transform pellet in pellets)
         {
-            // Add pellet position
-            sensor.AddObservation(pellet.position);
+            // Add normalized pellet position
+            Vector3 normalizedPelletPosition = NormalizePosition(pellet.position);
+            sensor.AddObservation(normalizedPelletPosition);
             // Add pellet activation status (1 if active, 0 if inactive)
             sensor.AddObservation(pellet.gameObject.activeSelf ? 1f : 0f);
         }
+    }
+
+    // Normalizes position to range [0, 1] based on world bounds
+    private Vector3 NormalizePosition(Vector3 position)
+    {
+        Vector3 normalizedPosition = new Vector3(
+            Mathf.InverseLerp(worldMin.x, worldMax.x, position.x),
+            Mathf.InverseLerp(worldMin.y, worldMax.y, position.y),
+            Mathf.InverseLerp(worldMin.z, worldMax.z, position.z)
+        );
+
+        return normalizedPosition;
     }
 
 
@@ -40,13 +74,36 @@ public class PacManAgent : Agent
     {
         if (collision.name == "Pellet(Clone)")
         {
-            AddReward(10f);
+            timeSinceLastPellet = 0f;
+            AddReward(PelletReward);
         }
 
         if (collision.name == "PowerPellet(Clone)")
         {
-            AddReward(50f);
+            timeSinceLastPellet = 0f;
+            AddReward(PowerPelletReward);
         }
+    }
+
+
+    private void Update()
+    {
+        timeSinceLastPellet += Time.deltaTime;
+        // Wenn die Zeit seit dem letzten Pellet den Schwellenwert überschreitet, geben Sie einen negativen Reward aus
+        if (timeSinceLastPellet >= MaxTimeWithoutPellets)
+        {
+
+            AddReward(HungerReward); // Belohne den Agenten negativ für das Nicht-Essen von Pellets innerhalb der Zeitgrenze
+            EndEpisode();
+            timeSinceLastPellet = 0f; // Setze den Timer zurück
+        }
+
+        if (!gamemanager.HasRemainingPellets())
+        {
+            AddReward(WinReward);
+        }
+
+
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -115,15 +172,11 @@ public class PacManAgent : Agent
 
     public void DeathSequence()
     {
-        // negative reward if pacman dies
-        AddReward(-100f);
-
         enabled = false;
         spriteRenderer.enabled = false;
         collider.enabled = false;
         movement.enabled = false;
         deathSequence.enabled = true;
         deathSequence.Restart();
-        EndEpisode();
     }
 }

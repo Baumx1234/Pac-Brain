@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
         Invoke(nameof(ResetGhostMultiplier), pellet.duration);
     }
 
-    private bool HasRemainingPellets()
+    public bool HasRemainingPellets()
     {
         foreach (Transform pellet in pellets)
         {
@@ -188,6 +188,11 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public Transform GetPellets()
+    {
+        return this.pellets;
     }
 
     private void ResetGhostMultiplier()
