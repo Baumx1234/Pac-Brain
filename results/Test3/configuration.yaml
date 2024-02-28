@@ -1,10 +1,69 @@
 default_settings: null
-behaviors: {}
+behaviors:
+  PacManAgent:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 512
+      buffer_size: 10240
+      learning_rate: 0.0003
+      beta: 0.005
+      epsilon: 0.2
+      lambd: 0.95
+      num_epoch: 3
+      shared_critic: false
+      learning_rate_schedule: linear
+      beta_schedule: constant
+      epsilon_schedule: linear
+    checkpoint_interval: 25000
+    network_settings:
+      normalize: false
+      hidden_units: 128
+      num_layers: 2
+      vis_encode_type: simple
+      memory:
+        sequence_length: 64
+        memory_size: 256
+      goal_conditioning_type: hyper
+      deterministic: false
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+          deterministic: false
+      curiosity:
+        gamma: 0.99
+        strength: 0.02
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+          deterministic: false
+        learning_rate: 0.0003
+        encoding_size: null
+    init_path: null
+    keep_checkpoints: 5
+    even_checkpoints: false
+    max_steps: 1000000
+    time_horizon: 64
+    summary_freq: 10000
+    threaded: true
+    self_play: null
+    behavioral_cloning: null
 env_settings:
-  env_path: null
+  env_path: build
   env_args: null
   base_port: 5005
-  num_envs: 1
+  num_envs: 4
   num_areas: 1
   timeout_wait: 60
   seed: -1
@@ -12,8 +71,8 @@ env_settings:
   restarts_rate_limit_n: 1
   restarts_rate_limit_period_s: 60
 engine_settings:
-  width: 84
-  height: 84
+  width: 350
+  height: 400
   quality_level: 5
   time_scale: 20
   target_frame_rate: -1
@@ -30,5 +89,5 @@ checkpoint_settings:
   inference: false
   results_dir: results
 torch_settings:
-  device: null
+  device: cuda
 debug: false

@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour
     public Vector2 nextDirection { get; private set; }
     public Vector3 startingPosition { get; private set; }
 
+    private Vector2 lastInputDirection = Vector2.zero;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -68,11 +70,35 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public bool Occupied(Vector2 direction)
+
+    public void SetDirection2(Vector2 direction, bool forced = false)
+    {
+        // Only set the direction if the tile in that direction is available
+        // otherwise we set it as the next direction so it'll automatically be
+        // set when it does become available
+        if (forced || !Occupied(direction))
+        {
+            // Adjust direction based on facing direction
+            this.direction = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z) * direction;
+            nextDirection = Vector2.zero;
+        }
+        else
+        {
+            nextDirection = direction;
+        }
+    }
+
+    private bool Occupied(Vector2 direction)
     {
         // If no collider is hit then there is no obstacle in that direction
-        RaycastHit2D hit =
-            Physics2D.BoxCast(transform.position, Vector2.one * 0.75f, 0f, direction, 1.5f, obstacleLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(
+            transform.position,
+            Vector2.one * 0.75f,
+            0f,
+            direction,
+            1.5f,
+            obstacleLayer
+        );
         return hit.collider != null;
     }
 }

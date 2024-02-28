@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (lives <= 0 && Input.anyKeyDown)
+        if (lives <= 0)
         {
             NewGame();
         }
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
         if (!HasRemainingPellets())
         {
             pacman.gameObject.SetActive(false);
-            Invoke(nameof(NewRound), 3f);
+            NewRound();
         }
     }
 
