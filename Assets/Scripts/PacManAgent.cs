@@ -98,15 +98,13 @@ public class PacManAgent : Agent
             timeSinceLastPellet = 0f;
             // PacMan wurde gegessen (gestorben an hunger)
             AddReward(HungerReward);
-            EndEpisode();
+            gamemanager.PacmanEaten();
         }
 
         if (!gamemanager.HasRemainingPellets())
         {
             AddReward(WinReward);
         }
-
-        Debug.Log(timeSinceLastPellet);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -131,7 +129,7 @@ public class PacManAgent : Agent
                 break;
         }
 
-        Vector2 relativeDirection = Quaternion.Euler(0, 0, -transform.rotation.eulerAngles.z) * direction;
+        //Vector2 relativeDirection = Quaternion.Euler(0, 0, -transform.rotation.eulerAngles.z) * direction;
         movement.SetDirection(direction);
 
         float angle = Mathf.Atan2(movement.direction.y, movement.direction.x);
@@ -165,6 +163,7 @@ public class PacManAgent : Agent
 
     public void ResetState()
     {
+        EndEpisode();
         enabled = true;
         spriteRenderer.enabled = true;
         collider.enabled = true;

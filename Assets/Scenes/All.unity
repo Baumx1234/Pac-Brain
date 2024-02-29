@@ -393,6 +393,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6038318316045854524, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
   m_PrefabInstance: {fileID: 407278670}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &407278672 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6568115146936581070, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+  m_PrefabInstance: {fileID: 407278670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fbffdb67f794044cae432f8a62e4d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &421967638
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -594,7 +605,7 @@ MonoBehaviour:
   - {fileID: 1566492903}
   - {fileID: 2109977863}
   - {fileID: 2107185094}
-  pacman: {fileID: 1346670832}
+  pacmanagent: {fileID: 407278672}
   pellets: {fileID: 1910537628}
   gameOverText: {fileID: 1133529214}
   scoreText: {fileID: 1945791160}
@@ -1819,17 +1830,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133529212}
   m_CullTransparentMesh: 1
---- !u!114 &1346670832 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6038318316045854519, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
-  m_PrefabInstance: {fileID: 407278670}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d7f2cb27e699b47a997a794f901408, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1509104623
 GameObject:
   m_ObjectHideFlags: 0

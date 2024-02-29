@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Ghost[] ghosts;
 
-    [SerializeField] private MonoBehaviour pacman;
+    [SerializeField] private PacManAgent pacmanagent;
 
     [SerializeField] private Transform pellets;
 
@@ -39,17 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (pacman.GetComponent<Pacman>())
-        {
-            pacman = pacman.GetComponent<Pacman>();
-        } else if (pacman.GetComponent<PacManAgent>())
-        {
-            pacman = pacman.GetComponent<PacManAgent>();
-        }
-        else
-        {
-            Debug.LogError("Das übergebene Objekt ist weder ein Pacman noch ein PacmanAgent.");
-        }
+        pacmanagent = pacmanagent.GetComponent<PacManAgent>();
         NewGame();
     }
 
@@ -87,14 +77,7 @@ public class GameManager : MonoBehaviour
             ghosts[i].ResetState();
         }
 
-        if (pacman is Pacman)
-        {
-            (pacman as Pacman).ResetState();
-        }
-        else if (pacman is PacManAgent)
-        {
-            (pacman as PacManAgent).ResetState();
-        }
+        pacmanagent.ResetState();
     }
 
     private void GameOver()
@@ -106,7 +89,7 @@ public class GameManager : MonoBehaviour
             ghosts[i].gameObject.SetActive(false);
         }
 
-        pacman.gameObject.SetActive(false);
+        pacmanagent.gameObject.SetActive(false);
     }
 
     private void SetLives(int lives)
@@ -123,20 +106,13 @@ public class GameManager : MonoBehaviour
 
     public void PacmanEaten()
     {
-        if (pacman is Pacman)
-        {
-            (pacman as Pacman).DeathSequence();
-        }
-        else if (pacman is PacManAgent)
-        {
-            (pacman as PacManAgent).DeathSequence();
-        }
+        pacmanagent.DeathSequence();
 
         SetLives(lives - 1);
 
         if (lives > 0)
         {
-            Invoke(nameof(ResetState), 3f);
+            ResetState();
         }
         else
         {
@@ -160,7 +136,7 @@ public class GameManager : MonoBehaviour
 
         if (!HasRemainingPellets())
         {
-            pacman.gameObject.SetActive(false);
+            pacmanagent.gameObject.SetActive(false);
             NewRound();
         }
     }
