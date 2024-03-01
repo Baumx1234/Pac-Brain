@@ -3,43 +3,48 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Movement))]
 public class PacManAgent : Agent
 {
-    [SerializeField]
-    private AnimatedSprite deathSequence;
+    [SerializeField] private AnimatedSprite deathSequence;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
+
     private new Collider2D collider;
-    private GameManager gamemanager;
+
+    // private GameManager gamemanager;
     private int currentAction;
-    private float timeSinceLastPellet;
+    // private float timeSinceLastPellet;
 
     // Constants
-    private const float MaxTimeWithoutPellets = 30f;
-
+    //private const float MaxTimeWithoutPellets = 30f;
     private const float PelletReward = 0.01f;
     private const float PowerPelletReward = 0.05f;
-    private const float DeathReward = -1f;
-    private const float WinReward = 1f;
-    private const float HungerReward = -0.5f;
 
-    private Vector3 worldMin = new(-12.5f, -15.5f, 0f);
-    private Vector3 worldMax = new(12.5f, 12.5f, 0f);
+    private const float DeathReward = -1f;
+
+    //private const float WinRewardMultiplier = 1.25f;
+    private const float WinReward = 1f;
+    // const float HungerReward = -0.1f;
+
+    // public float startTime;
+
+    //private Vector3 worldMin = new(-12.5f, -15.5f, 0f);
+    //private Vector3 worldMax = new(12.5f, 12.5f, 0f);
 
     public override void Initialize()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         movement = GetComponent<Movement>();
         collider = GetComponent<Collider2D>();
-        gamemanager = FindObjectOfType<GameManager>();
-        timeSinceLastPellet = 0f;
+        // gamemanager = FindObjectOfType<GameManager>();
+        // timeSinceLastPellet = 0f;
         currentAction = 3;
+        // startTime = Time.time;
     }
 
-    public override void CollectObservations(VectorSensor sensor)
+    /*public override void CollectObservations(VectorSensor sensor)
     {
         // Add player position
         Vector3 normalizedPlayerPosition = NormalizePosition(transform.position);
@@ -71,24 +76,30 @@ public class PacManAgent : Agent
         );
 
         return normalizedPosition;
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "Pellet(Clone)")
+        if (collision.CompareTag("Pellet"))
         {
-            timeSinceLastPellet = 0f;
+            // timeSinceLastPellet = 0f;
             AddReward(PelletReward);
         }
 
-        if (collision.name == "PowerPellet(Clone)")
+        if (collision.CompareTag("PowerPellet"))
         {
-            timeSinceLastPellet = 0f;
+            // timeSinceLastPellet = 0f;
             AddReward(PowerPelletReward);
         }
     }
 
-    private void Update()
+    /*public override void CollectObservations(VectorSensor sensor)
+    {
+        float elapsedTime = Time.time - startTime;
+        sensor.AddObservation(elapsedTime);
+    }*/
+
+    /*private void Update()
     {
         timeSinceLastPellet += Time.deltaTime;
         // Wenn die Zeit seit dem letzten Pellet den Schwellenwert überschreitet, geben Sie einen negativen Reward aus
@@ -98,13 +109,25 @@ public class PacManAgent : Agent
             timeSinceLastPellet = 0f;
             // PacMan wurde gegessen (gestorben an hunger)
             AddReward(HungerReward);
-            gamemanager.PacmanEaten();
+            EndEpisode();
         }
+    }*/
 
-        if (!gamemanager.HasRemainingPellets())
-        {
-            AddReward(WinReward);
-        }
+    // For the gamemanager
+    public void GiveWinReward()
+    {
+        // float gameTime = Time.time - startTime;
+        // Debug.Log("Zeit seit Spielstart " + gameTime);
+        // float winRewardMultiplied = (1f / gameTime) * WinRewardMultiplier + WinReward;
+        // Debug.Log("Reward " + winRewardMultiplied);
+        // AddReward(winRewardMultiplied);
+        AddReward(WinReward);
+    }
+
+    // For the gamemanager
+    public void GiveDeathReward()
+    {
+        AddReward(DeathReward);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -112,6 +135,7 @@ public class PacManAgent : Agent
         // Convert discrete actions to movement directions
         int movementAction = actions.DiscreteActions[0];
         Vector2 direction = Vector2.zero;
+
 
         switch (movementAction)
         {
@@ -129,7 +153,6 @@ public class PacManAgent : Agent
                 break;
         }
 
-        //Vector2 relativeDirection = Quaternion.Euler(0, 0, -transform.rotation.eulerAngles.z) * direction;
         movement.SetDirection(direction);
 
         float angle = Mathf.Atan2(movement.direction.y, movement.direction.x);
@@ -161,9 +184,8 @@ public class PacManAgent : Agent
         discreteActions[0] = currentAction;
     }
 
-    public void ResetState()
+    public override void OnEpisodeBegin()
     {
-        EndEpisode();
         enabled = true;
         spriteRenderer.enabled = true;
         collider.enabled = true;
@@ -174,7 +196,6 @@ public class PacManAgent : Agent
 
     public void DeathSequence()
     {
-        AddReward(DeathReward);
         enabled = false;
         spriteRenderer.enabled = false;
         collider.enabled = false;
@@ -182,6 +203,4 @@ public class PacManAgent : Agent
         deathSequence.enabled = true;
         deathSequence.Restart();
     }
-
-
 }

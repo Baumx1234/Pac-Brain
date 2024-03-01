@@ -29,10 +29,10 @@ behaviors:
                 memory_size: 256
 
         # Trainer configurations common to all trainers
-        max_steps: 10.0e5
+        max_steps: 1.0e10
         time_horizon: 64
         summary_freq: 10000
-        keep_checkpoints: 5
+        keep_checkpoints: 320
         checkpoint_interval: 25000
         threaded: true
 
@@ -43,10 +43,10 @@ behaviors:
                 gamma: 0.99
 
             # curiosity module
-            curiosity:
-                strength: 0.02
-                gamma: 0.99
-                learning_rate: 3.0e-4
+            #curiosity:
+            #strength: 0.02
+            #gamma: 0.99
+            #learning_rate: 3.0e-4
 
 env_settings:
     env_path: build

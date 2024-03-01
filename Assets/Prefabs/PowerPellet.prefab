@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6502982450547382734}
   m_Layer: 8
   m_Name: PowerPellet
-  m_TagString: Untagged
+  m_TagString: PowerPellet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,4 +160,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 50
-  duration: 8
+  duration: 0

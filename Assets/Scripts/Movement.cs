@@ -13,8 +13,6 @@ public class Movement : MonoBehaviour
     public Vector2 nextDirection { get; private set; }
     public Vector3 startingPosition { get; private set; }
 
-    private Vector2 lastInputDirection = Vector2.zero;
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -62,24 +60,6 @@ public class Movement : MonoBehaviour
         if (forced || !Occupied(direction))
         {
             this.direction = direction;
-            nextDirection = Vector2.zero;
-        }
-        else
-        {
-            nextDirection = direction;
-        }
-    }
-
-
-    public void SetDirection2(Vector2 direction, bool forced = false)
-    {
-        // Only set the direction if the tile in that direction is available
-        // otherwise we set it as the next direction so it'll automatically be
-        // set when it does become available
-        if (forced || !Occupied(direction))
-        {
-            // Adjust direction based on facing direction
-            this.direction = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z) * direction;
             nextDirection = Vector2.zero;
         }
         else

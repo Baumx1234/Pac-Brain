@@ -1,5 +1,7 @@
+using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,8 +19,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Text livesText;
 
+    public int totalLives;
+
     private int ghostMultiplier = 1;
-    private int lives = 1;
+    private int lives;
     private int score = 0;
 
     public int Lives => lives;
@@ -40,6 +44,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pacmanagent = pacmanagent.GetComponent<PacManAgent>();
+        SetLives(totalLives);
         NewGame();
     }
 
@@ -54,7 +59,7 @@ public class GameManager : MonoBehaviour
     private void NewGame()
     {
         SetScore(0);
-        SetLives(1);
+        SetLives(totalLives);
         NewRound();
     }
 
@@ -76,8 +81,8 @@ public class GameManager : MonoBehaviour
         {
             ghosts[i].ResetState();
         }
-
-        pacmanagent.ResetState();
+        // pacmanagent.startTime = Time.time;
+        pacmanagent.OnEpisodeBegin();
     }
 
     private void GameOver()
@@ -88,7 +93,6 @@ public class GameManager : MonoBehaviour
         {
             ghosts[i].gameObject.SetActive(false);
         }
-
         pacmanagent.gameObject.SetActive(false);
     }
 
@@ -106,6 +110,8 @@ public class GameManager : MonoBehaviour
 
     public void PacmanEaten()
     {
+        pacmanagent.GiveDeathReward();
+        pacmanagent.EndEpisode();
         pacmanagent.DeathSequence();
 
         SetLives(lives - 1);
@@ -136,6 +142,8 @@ public class GameManager : MonoBehaviour
 
         if (!HasRemainingPellets())
         {
+            pacmanagent.GiveWinReward();
+            pacmanagent.EndEpisode();
             pacmanagent.gameObject.SetActive(false);
             NewRound();
         }

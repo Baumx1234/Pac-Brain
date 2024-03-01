@@ -54,7 +54,7 @@ public class Ghost : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        if (collision.collider.CompareTag("Player"))
         {
             if (frightened.enabled) {
                 GameManager.Instance.GhostEaten(this);
