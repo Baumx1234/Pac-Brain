@@ -341,7 +341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7254288000631920282, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5768879997700402051, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: m_RayLength
@@ -372,8 +372,16 @@ PrefabInstance:
       value: 4294966152
       objectReference: {fileID: 0}
     - target: {fileID: -2936055889630566695, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+      propertyPath: DecisionStep
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2936055889630566695, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: DecisionPeriod
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2936055889630566695, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+      propertyPath: TakeActionsBetweenDecisions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5272073953153929703, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: m_Width
@@ -453,7 +461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6568115146936581070, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: MaxStep
-      value: 5000
+      value: 4000
       objectReference: {fileID: 0}
     - target: {fileID: 6568115146936581070, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: pellets
@@ -555,6 +563,7 @@ MonoBehaviour:
   scoreText: {fileID: 1945791160}
   livesText: {fileID: 278868602}
   totalLives: 1
+  GameIsWon: 0
 --- !u!4 &469897152
 Transform:
   m_ObjectHideFlags: 0

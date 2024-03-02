@@ -328,12 +328,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7254288000631920282, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -7254288000631920282, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: m_BehaviorName
       value: PacManAgent
       objectReference: {fileID: 0}
     - target: {fileID: -7254288000631920282, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7254288000631920282, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2936055889630566695, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
+      propertyPath: DecisionPeriod
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5272073953153929703, guid: e6cf32425e3bfb34da2055017397b090, type: 3}
       propertyPath: m_Width
@@ -636,6 +648,7 @@ MonoBehaviour:
   scoreText: {fileID: 1945791160}
   livesText: {fileID: 278868602}
   totalLives: 1
+  GameIsWon: 0
 --- !u!4 &469897152
 Transform:
   m_ObjectHideFlags: 0

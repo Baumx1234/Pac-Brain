@@ -13,7 +13,7 @@ public class PacManAgent : Agent
 
     private new Collider2D collider;
 
-    // private GameManager gamemanager;
+    private GameManager gamemanager;
     private int currentAction;
     // private float timeSinceLastPellet;
 
@@ -21,7 +21,7 @@ public class PacManAgent : Agent
     //private const float MaxTimeWithoutPellets = 30f;
     private const float PelletReward = 0.01f;
     private const float PowerPelletReward = 0.05f;
-
+    private const float NegativeRewardPerStep = -0.001f;
     private const float DeathReward = -1f;
 
     //private const float WinRewardMultiplier = 1.25f;
@@ -38,7 +38,7 @@ public class PacManAgent : Agent
         spriteRenderer = GetComponent<SpriteRenderer>();
         movement = GetComponent<Movement>();
         collider = GetComponent<Collider2D>();
-        // gamemanager = FindObjectOfType<GameManager>();
+        gamemanager = FindObjectOfType<GameManager>();
         // timeSinceLastPellet = 0f;
         currentAction = 3;
         // startTime = Time.time;
@@ -136,7 +136,6 @@ public class PacManAgent : Agent
         int movementAction = actions.DiscreteActions[0];
         Vector2 direction = Vector2.zero;
 
-
         switch (movementAction)
         {
             case 0:
@@ -151,6 +150,11 @@ public class PacManAgent : Agent
             case 3:
                 direction = Vector2.right;
                 break;
+        }
+
+        if (!gamemanager.GameIsWon)
+        {
+            AddReward(NegativeRewardPerStep);
         }
 
         movement.SetDirection(direction);
@@ -191,6 +195,7 @@ public class PacManAgent : Agent
         collider.enabled = true;
         deathSequence.enabled = false;
         movement.ResetState();
+        gamemanager.GameIsWon = false;
         gameObject.SetActive(true);
     }
 

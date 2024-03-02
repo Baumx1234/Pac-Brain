@@ -38,7 +38,7 @@ behaviors:
           goal_conditioning_type: hyper
           deterministic: false
     init_path: null
-    keep_checkpoints: 5
+    keep_checkpoints: 320
     even_checkpoints: false
     max_steps: 10000000000
     time_horizon: 64

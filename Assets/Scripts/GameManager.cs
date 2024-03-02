@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private int ghostMultiplier = 1;
     private int lives;
     private int score = 0;
+    public bool GameIsWon = false;
 
     public int Lives => lives;
     public int Score => score;
@@ -145,6 +146,7 @@ public class GameManager : MonoBehaviour
             pacmanagent.GiveWinReward();
             pacmanagent.EndEpisode();
             pacmanagent.gameObject.SetActive(false);
+            GameIsWon = true;
             NewRound();
         }
     }

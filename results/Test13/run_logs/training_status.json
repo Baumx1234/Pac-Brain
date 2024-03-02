@@ -45,15 +45,33 @@
                 "auxillary_file_paths": [
                     "results\\Test13\\PacManAgent\\PacManAgent-8702721.pt"
                 ]
+            },
+            {
+                "steps": 8724983,
+                "file_path": "results\\Test13\\PacManAgent\\PacManAgent-8724983.onnx",
+                "reward": -1.1275000683963299,
+                "creation_time": 1709308459.6043458,
+                "auxillary_file_paths": [
+                    "results\\Test13\\PacManAgent\\PacManAgent-8724983.pt"
+                ]
+            },
+            {
+                "steps": 8732771,
+                "file_path": "results\\Test13\\PacManAgent\\PacManAgent-8732771.onnx",
+                "reward": null,
+                "creation_time": 1709308492.5358465,
+                "auxillary_file_paths": [
+                    "results\\Test13\\PacManAgent\\PacManAgent-8732771.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 8702721,
+            "steps": 8732771,
             "file_path": "results\\Test13\\PacManAgent.onnx",
-            "reward": 0.7060713758692145,
-            "creation_time": 1709284127.6094315,
+            "reward": null,
+            "creation_time": 1709308492.5358465,
             "auxillary_file_paths": [
-                "results\\Test13\\PacManAgent\\PacManAgent-8702721.pt"
+                "results\\Test13\\PacManAgent\\PacManAgent-8732771.pt"
             ]
         }
     },
