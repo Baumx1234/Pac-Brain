@@ -15,23 +15,14 @@ public class PacManAgent : Agent
 
     private GameManager gamemanager;
     private int currentAction;
-    // private float timeSinceLastPellet;
 
     // Constants
-    //private const float MaxTimeWithoutPellets = 30f;
     private const float PelletReward = 0.01f;
     private const float PowerPelletReward = 0.05f;
     private const float NegativeRewardPerStep = -0.001f;
     private const float DeathReward = -1f;
 
-    //private const float WinRewardMultiplier = 1.25f;
     private const float WinReward = 1f;
-    // const float HungerReward = -0.1f;
-
-    // public float startTime;
-
-    //private Vector3 worldMin = new(-12.5f, -15.5f, 0f);
-    //private Vector3 worldMax = new(12.5f, 12.5f, 0f);
 
     public override void Initialize()
     {
@@ -39,44 +30,8 @@ public class PacManAgent : Agent
         movement = GetComponent<Movement>();
         collider = GetComponent<Collider2D>();
         gamemanager = FindObjectOfType<GameManager>();
-        // timeSinceLastPellet = 0f;
         currentAction = 3;
-        // startTime = Time.time;
     }
-
-    /*public override void CollectObservations(VectorSensor sensor)
-    {
-        // Add player position
-        Vector3 normalizedPlayerPosition = NormalizePosition(transform.position);
-        sensor.AddObservation(normalizedPlayerPosition.x);
-        sensor.AddObservation(normalizedPlayerPosition.y);
-
-
-        Transform pellets = gamemanager.GetPellets();
-        if (!pellets)
-            return;
-        foreach (Transform pellet in pellets)
-        {
-            // Add normalized pellet position
-            Vector3 normalizedPelletPosition = NormalizePosition(pellet.position);
-            sensor.AddObservation(normalizedPelletPosition.x);
-            sensor.AddObservation(normalizedPelletPosition.y);
-            // Add pellet activation status (1 if active, 0 if inactive)
-            sensor.AddObservation(pellet.gameObject.activeSelf ? 1f : 0f);
-        }
-    }
-
-    // Normalizes position to range [0, 1] based on world bounds
-    private Vector3 NormalizePosition(Vector3 position)
-    {
-        Vector3 normalizedPosition = new Vector3(
-            Mathf.InverseLerp(worldMin.x, worldMax.x, position.x),
-            Mathf.InverseLerp(worldMin.y, worldMax.y, position.y),
-            Mathf.InverseLerp(worldMin.z, worldMax.z, position.z)
-        );
-
-        return normalizedPosition;
-    }*/
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -93,34 +48,9 @@ public class PacManAgent : Agent
         }
     }
 
-    /*public override void CollectObservations(VectorSensor sensor)
-    {
-        float elapsedTime = Time.time - startTime;
-        sensor.AddObservation(elapsedTime);
-    }*/
-
-    /*private void Update()
-    {
-        timeSinceLastPellet += Time.deltaTime;
-        // Wenn die Zeit seit dem letzten Pellet den Schwellenwert überschreitet, geben Sie einen negativen Reward aus
-        if (timeSinceLastPellet >= MaxTimeWithoutPellets)
-        {
-            // Setze den Timer zurück
-            timeSinceLastPellet = 0f;
-            // PacMan wurde gegessen (gestorben an hunger)
-            AddReward(HungerReward);
-            EndEpisode();
-        }
-    }*/
-
     // For the gamemanager
     public void GiveWinReward()
     {
-        // float gameTime = Time.time - startTime;
-        // Debug.Log("Zeit seit Spielstart " + gameTime);
-        // float winRewardMultiplied = (1f / gameTime) * WinRewardMultiplier + WinReward;
-        // Debug.Log("Reward " + winRewardMultiplied);
-        // AddReward(winRewardMultiplied);
         AddReward(WinReward);
     }
 
@@ -152,11 +82,11 @@ public class PacManAgent : Agent
                 break;
         }
 
+
         if (!gamemanager.GameIsWon)
         {
             AddReward(NegativeRewardPerStep);
         }
-
         movement.SetDirection(direction);
 
         float angle = Mathf.Atan2(movement.direction.y, movement.direction.x);
