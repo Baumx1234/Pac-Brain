@@ -10,7 +10,6 @@ public class Movement : MonoBehaviour
 
     public new Rigidbody2D rigidbody { get; private set; }
     public Vector2 direction { get; private set; }
-    public Vector2 nextDirection { get; private set; }
     public Vector3 startingPosition { get; private set; }
 
     private void Awake()
@@ -28,20 +27,9 @@ public class Movement : MonoBehaviour
     {
         speedMultiplier = 1f;
         direction = initialDirection;
-        nextDirection = Vector2.zero;
         transform.position = startingPosition;
         rigidbody.isKinematic = false;
         enabled = true;
-    }
-
-    private void Update()
-    {
-        // Try to move in the next direction while it's queued to make movements
-        // more responsive
-        if (nextDirection != Vector2.zero)
-        {
-            SetDirection(nextDirection);
-        }
     }
 
     private void FixedUpdate()
@@ -60,12 +48,8 @@ public class Movement : MonoBehaviour
         if (forced || !Occupied(direction))
         {
             this.direction = direction;
-            nextDirection = Vector2.zero;
         }
-        else
-        {
-            nextDirection = direction;
-        }
+
     }
 
     private bool Occupied(Vector2 direction)

@@ -7,7 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(Movement))]
 public class PacManAgent : Agent
 {
-    [SerializeField] private AnimatedSprite deathSequence;
+    [SerializeField]
+    private AnimatedSprite deathSequence;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
 
@@ -15,14 +16,16 @@ public class PacManAgent : Agent
 
     private GameManager gamemanager;
     private int currentAction;
+    private Vector3 previousPosition;
+
 
     // Constants
-    private const float PelletReward = 0.01f;
+    private const float PelletReward = 0.02f;
     private const float PowerPelletReward = 0.05f;
-    private const float NegativeRewardPerStep = -0.001f;
     private const float DeathReward = -1f;
-
     private const float WinReward = 1f;
+    private const float NearPelletReward = 0.01f;
+    private const float AwayPelletReward = -0.001f;
 
     public override void Initialize()
     {
@@ -83,15 +86,55 @@ public class PacManAgent : Agent
         }
 
 
-        if (!gamemanager.GameIsWon)
+
+        Transform closestPellet = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (Transform pellet in gamemanager.pellets)
         {
-            AddReward(NegativeRewardPerStep);
+            if (pellet.gameObject.activeSelf)
+            {
+                float distance = Vector3.Distance(transform.position, pellet.position);
+                if (distance < closestDistance)
+                {
+                    closestPellet = pellet;
+                    closestDistance = distance;
+                }
+            }
         }
+
+        // If there is an active pellet, compare the distance to the previous position
+        if (closestPellet != null)
+        {
+            float previousDistance = Vector3.Distance(previousPosition, closestPellet.position);
+            float distanceChange = closestDistance - previousDistance;
+
+            // Introduce a tolerance for the distance change
+            float tolerance = 0.1f;
+
+            if (distanceChange < -tolerance)
+            {
+                // If the agent is closer to the pellet than before, give a reward
+                AddReward(NearPelletReward);
+            }
+            else if (distanceChange > tolerance)
+            {
+                // If the agent is farther from the pellet than before, give a penalty
+                AddReward(AwayPelletReward);
+            }
+        }
+
+        // Remember the current position for the next action
+        previousPosition = transform.position;
+
+
         movement.SetDirection(direction);
 
         float angle = Mathf.Atan2(movement.direction.y, movement.direction.x);
         transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
+
     }
+
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {

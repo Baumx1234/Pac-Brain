@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PacManAgent pacmanagent;
 
-    [SerializeField] private Transform pellets;
+    [SerializeField] public Transform pellets;
 
     [SerializeField] private Text gameOverText;
 
