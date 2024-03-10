@@ -11,4 +11,5 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/One Ghost.unity
     guid: 3aab78523cf91a3498c755991560d010
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.ml-agents.settings: {fileID: 11400000, guid: a2829d4d9958961459e57a62650adfea, type: 2}

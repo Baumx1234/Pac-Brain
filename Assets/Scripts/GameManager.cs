@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
     public void PacmanEaten()
     {
         pacmanagent.GiveDeathReward();
-        pacmanagent.EndEpisode();
         pacmanagent.DeathSequence();
 
         SetLives(lives - 1);
@@ -144,7 +143,6 @@ public class GameManager : MonoBehaviour
         if (!HasRemainingPellets())
         {
             pacmanagent.GiveWinReward();
-            pacmanagent.EndEpisode();
             pacmanagent.gameObject.SetActive(false);
             GameIsWon = true;
             NewRound();
